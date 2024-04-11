@@ -7,12 +7,12 @@
 
 @font-face {
     font-family: "esport";
-    src: url("/Fonts/gravtrac/gravtrac compressed bd.ttf");
+    src: url("Fonts/gravtrac/gravtrac compressed bd.ttf");
 }
 
 @font-face {
     font-family: "slab";
-    src: url("/Fonts/Corki/TD-Corki-Regular.otf");
+    src: url("Fonts/Corki/TD-Corki-Regular.otf");
 }
     
 html, body{
@@ -22,7 +22,7 @@ html, body{
 }
 
 body {
-    background-image: url("/Images/background-pdf.png");
+    background-image: url("Images/background-pdf.png");
     background-attachment: scroll;
     background-size: 100% auto;
     background-repeat: repeat;
@@ -148,7 +148,7 @@ body {
 }
 
 #leaderboard-container {
-    background-image: url("/Images/leaderboard-topper.png");
+    background-image: url("Images/leaderboard-topper.png");
     max-width: 1000px;
     width: 90%;
     margin: auto;
