@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="refresh" content="90">
+  <title>2024 Masters Pool</title>
+  <link rel="shortcut icon" href="Images/Masters.png" />
+  <link rel="stylesheet" href="Stylesheets/leaderboardstyle.css" />
+</head>
+
+<body>
+
+  <div class="headerimg"><img src="Images/Baynes Masters Header.png" width="100%"></div>
+<!--   <a class="buttonimg" href="https://forms.gle/EFvvkUyJvzj7VvS77"><img src="Images/enter-button.png" width="50%"></a> -->
+<!--   <a class="buttonimg" href="https://forms.gle/QDk3Fe4CXquEhe9Z9"><img src="Images/change-button.png" width="50%"></a> -->
+
+<!--   <div id="winnings">
+    <div class="win-title">2023 Pool Payouts</div>
+    <div class="first-place">First Place - $5,500 and $1,500 to the charity of your choice</div>
+    <div class="second-place">Second Place - $3,000</div>
+    <div class="third-place">Third Place - $2,000</div>
+    <div class="fourth-place">4th Place - $1,500</div>
+    <div class="fifth-place">5th Place - $1,000</div>
+    <div class="sixth-place">6th Place - $800</div>
+    <div class="seventh-place">7th Place - $650</div>
+    <div class="eighth-place">8th Place - $500</div>
+    <div class="ninth-place">9th Place - $350</div>
+    <div class="tenth-place">10th Place - $200</div>
+  </div> -->
+
+  <div id="leaderboard-container">
+    <input id="search" type="text" placeholder="Search for your team name here...">
+    <div id="leaderboard"></div>
+  </div>
+
+  <script>
+    // Fetch JSON data from URL
+    fetch('https://opensheet.elk.sh/1_BzfhnH9sMKq5ZtyWc33nkqmAN9yvGrYqvWjG05lnvE/Output')
+      .then(response => response.json())
+      .then(data => {
+        console.log(data)
+        // Get the output div element
+        const outputDiv = document.getElementById('leaderboard');
+        // Get the search input element
+        const searchInput = document.getElementById('search');
+
+        // Function to create a div element for each post
+        const createPostDiv = (post) => {
+          // Create a div element for the post
+          const postDiv = document.createElement('div');
+          postDiv.className = 'leaderboard-slot';
+          postDiv.innerHTML = `
+            <div class="rank">${post.rank}</div>
+            <div class="team">${post.teamName}</div>
+            <div class="proj-money">${formatCurrency(post.earnings)}</div>
+            <div class="first-golfer">${post.golferOne}</div>
+            <div class="second-golfer">${post.golferTwo}</div>
+            <div class="third-golfer">${post.golferThree}</div>
+            <div class="fourth-golfer">${post.golferFour}</div>
+            <div class="fifth-golfer">${post.golferFive}</div>
+            <div class="sixth-golfer">${post.golferSix}</div>
+            <div class="seventh-golfer">${post.golferSeven}</div>
+            <div class="eigth-golfer">${post.golferEight}</div>
+            <div class="ninth-golfer">${post.golferNine}</div>
+            <div class="tenth-golfer">${post.golferTen}</div>
+            <div class="eleventh-golfer">${post.golferEleven}</div>
+            <div class="twelvth-golfer">${post.golferTwelve}</div>
+          `;
+          // Append the div element to the output div
+          outputDiv.appendChild(postDiv);
+        };
+
+        // Function to filter posts by title
+        const filterPosts = () => {
+          const searchTerm = searchInput.value.toLowerCase();
+          // Clear the output div
+          outputDiv.innerHTML = '';
+          // Filter the posts by title
+          const filteredPosts = data.filter(post => post.teamName.toLowerCase().includes(searchTerm));
+          // Loop through the filtered posts and create div elements
+          filteredPosts.forEach(post => {
+              createPostDiv(post);
+          });
+        };
+
+        // Call the filterPosts function to create div elements for all posts on page load
+        filterPosts();
+
+        // Add event listener to search input for input event
+        searchInput.addEventListener('input', filterPosts);
+      })
+      .catch(error => console.error(error));
+
+      function formatCurrency(number) {
+        const integer = Math.round(number);
+        const formatter = new Intl.NumberFormat('en-US', {
+          style: 'currency',
+          currency: 'USD',
+          minimumFractionDigits: 0,
+          maximumFractionDigits: 0
+        });
+        return formatter.format(integer);
+      }
+  </script>
+
+</body>
+
+</html>
