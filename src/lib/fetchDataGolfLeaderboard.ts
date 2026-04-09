@@ -246,6 +246,16 @@ function formatProbability(value: unknown): number | null {
 	return numericValue
 }
 
+function shouldClearLiveRoundFields(position: string | null): boolean {
+	if (!position) {
+		return false
+	}
+
+	const normalizedPosition = position.toUpperCase()
+
+	return normalizedPosition === 'CUT' || normalizedPosition === 'DQ'
+}
+
 function parseEntry(row: UnknownRecord): PartialLeaderboardEntry | null {
 	const playerName = getString(readKnownField(row, PLAYER_NAME_KEYS))
 
@@ -254,14 +264,17 @@ function parseEntry(row: UnknownRecord): PartialLeaderboardEntry | null {
 	}
 
 	const rawId = getString(readKnownField(row, PLAYER_ID_KEYS))
+	const position = formatPosition(readKnownField(row, POSITION_KEYS))
+	const roundScore = formatRelativeScore(readKnownField(row, ROUND_SCORE_KEYS))
+	const thru = formatThru(readKnownField(row, THRU_KEYS))
 
 	return {
 		id: rawId ?? normalizePlayerKey(playerName),
 		playerName: formatPlayerName(playerName),
-		position: formatPosition(readKnownField(row, POSITION_KEYS)),
+		position,
 		score: formatRelativeScore(readKnownField(row, SCORE_KEYS)),
-		roundScore: formatRelativeScore(readKnownField(row, ROUND_SCORE_KEYS)),
-		thru: formatThru(readKnownField(row, THRU_KEYS)),
+		roundScore: shouldClearLiveRoundFields(position) ? '' : roundScore,
+		thru: shouldClearLiveRoundFields(position) ? '' : thru,
 		totalSg: getNumber(readKnownField(row, TOTAL_SG_KEYS)),
 		makeCutProbability: formatProbability(readKnownField(row, MAKE_CUT_KEYS)),
 		winProbability: formatProbability(readKnownField(row, WIN_PROBABILITY_KEYS)),
