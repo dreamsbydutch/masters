@@ -31,8 +31,14 @@ export const LeaderboardTable = memo(function LeaderboardTable({ entries, expand
 					</tr>
 				</thead>
 				<tbody>
-					{entries.map(entry => (
-						<LeaderboardRow key={entry.id} entry={entry} isExpanded={expandedRows.has(entry.id)} onToggle={onToggleRow} />
+					{entries.map((entry, index) => (
+						<LeaderboardRow
+							key={entry.id}
+							entry={entry}
+							isExpanded={expandedRows.has(entry.id)}
+							hasTopBorder={index === 0 || entries[index - 1].rank !== entry.rank}
+							onToggle={onToggleRow}
+						/>
 					))}
 				</tbody>
 			</table>

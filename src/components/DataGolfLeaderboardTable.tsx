@@ -52,8 +52,8 @@ export const DataGolfLeaderboardTable = memo(function DataGolfLeaderboardTable({
 					</tr>
 				</thead>
 				<tbody>
-					{entries.map(entry => (
-						<tr key={entry.id} className="border-t border-[#346c50]">
+					{entries.map((entry, index) => (
+						<tr key={entry.id} className={index === 0 || entries[index - 1].position !== entry.position ? 'border-t border-[#346c50]' : ''}>
 							<td className="w-[12%] py-2 text-center font-[MastersDisplay] text-base tracking-wider text-[#21483c] sm:py-3 sm:text-2xl">
 								{entry.position}
 							</td>

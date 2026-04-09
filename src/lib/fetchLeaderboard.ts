@@ -42,6 +42,23 @@ function compareEntriesByEarnings(a: LeaderboardEntry, b: LeaderboardEntry): num
   return a.teamName.localeCompare(b.teamName, undefined, { sensitivity: 'base' });
 }
 
+function assignRanks(entries: LeaderboardEntry[]): LeaderboardEntry[] {
+  let previousEarnings: number | null = null;
+  let previousRank = 0;
+
+  return entries.map((entry, index) => {
+    const rank = previousEarnings !== null && entry.earnings === previousEarnings ? previousRank : index + 1;
+
+    previousEarnings = entry.earnings;
+    previousRank = rank;
+
+    return {
+      ...entry,
+      rank: String(rank),
+    };
+  });
+}
+
 export async function fetchLeaderboard(): Promise<LeaderboardEntry[]> {
   const response = await fetch(LEADERBOARD_ENDPOINT, {
     headers: {
@@ -59,11 +76,5 @@ export async function fetchLeaderboard(): Promise<LeaderboardEntry[]> {
     throw new Error('Leaderboard response did not return a valid list.');
   }
 
-  return rows
-    .map(normalizeEntry)
-    .sort(compareEntriesByEarnings)
-    .map((entry, index) => ({
-      ...entry,
-      rank: String(index + 1),
-    }));
+  return assignRanks(rows.map(normalizeEntry).sort(compareEntriesByEarnings));
 }

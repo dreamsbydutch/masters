@@ -6,16 +6,17 @@ import { RosterPanel } from './RosterPanel'
 type LeaderboardRowProps = {
 	entry: LeaderboardEntry
 	isExpanded: boolean
+	hasTopBorder: boolean
 	onToggle: (entryId: string) => void
 }
 
-export const LeaderboardRow = memo(function LeaderboardRow({ entry, isExpanded, onToggle }: LeaderboardRowProps) {
+export const LeaderboardRow = memo(function LeaderboardRow({ entry, isExpanded, hasTopBorder, onToggle }: LeaderboardRowProps) {
 	const detailsId = `roster-${entry.id}`
 
 	return (
 		<>
 			<tr
-				className="border-t border-[#346c50] w-full cursor-pointer"
+				className={`${hasTopBorder ? 'border-t border-[#346c50]' : ''} w-full cursor-pointer`}
 				onClick={() => onToggle(entry.id)}
 				aria-label={isExpanded ? `Hide ${entry.teamName} roster` : `View ${entry.teamName} roster`}
 				aria-expanded={isExpanded}
