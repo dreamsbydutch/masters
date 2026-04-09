@@ -1,0 +1,6 @@
+@import "tailwindcss";
+
+/* Reuse existing display-font utility classes with a Baskerville stack. */
+.font-\[MastersDisplay\] {
+  font-family: "New Baskerville", Baskerville, "Baskerville Old Face", "Hoefler Text", Garamond, "Times New Roman", serif;
+}
