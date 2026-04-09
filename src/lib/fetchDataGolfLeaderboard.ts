@@ -172,6 +172,16 @@ function normalizePlayerKey(playerName: string): string {
 	return playerName.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-+|-+$/g, '')
 }
 
+function formatPlayerName(playerName: string): string {
+	const [lastName, firstName, ...rest] = playerName.split(',').map((part) => part.trim()).filter(Boolean)
+
+	if (!lastName || !firstName) {
+		return playerName
+	}
+
+	return [firstName, ...rest, lastName].join(' ')
+}
+
 function formatRelativeScore(value: unknown): string | null {
 	const stringValue = getString(value)
 
@@ -247,7 +257,7 @@ function parseEntry(row: UnknownRecord): PartialLeaderboardEntry | null {
 
 	return {
 		id: rawId ?? normalizePlayerKey(playerName),
-		playerName,
+		playerName: formatPlayerName(playerName),
 		position: formatPosition(readKnownField(row, POSITION_KEYS)),
 		score: formatRelativeScore(readKnownField(row, SCORE_KEYS)),
 		roundScore: formatRelativeScore(readKnownField(row, ROUND_SCORE_KEYS)),
@@ -278,17 +288,41 @@ function parseScoreValue(score: string): number {
 	return Number.isFinite(parsed) ? parsed : Number.POSITIVE_INFINITY
 }
 
-function compareEntries(a: DataGolfLeaderboardEntry, b: DataGolfLeaderboardEntry): number {
-	const positionDelta = parsePositionRank(a.position) - parsePositionRank(b.position)
+function getStatusGroup(position: string): number {
+	const normalizedPosition = position.toUpperCase()
 
-	if (positionDelta !== 0) {
-		return positionDelta
+	if (normalizedPosition === 'CUT') {
+		return 1
+	}
+
+	if (normalizedPosition === 'WD') {
+		return 2
+	}
+
+	if (normalizedPosition === 'DQ') {
+		return 3
+	}
+
+	return 0
+}
+
+function compareEntries(a: DataGolfLeaderboardEntry, b: DataGolfLeaderboardEntry): number {
+	const statusGroupDelta = getStatusGroup(a.position) - getStatusGroup(b.position)
+
+	if (statusGroupDelta !== 0) {
+		return statusGroupDelta
 	}
 
 	const scoreDelta = parseScoreValue(a.score) - parseScoreValue(b.score)
 
 	if (scoreDelta !== 0) {
 		return scoreDelta
+	}
+
+	const positionDelta = parsePositionRank(a.position) - parsePositionRank(b.position)
+
+	if (positionDelta !== 0) {
+		return positionDelta
 	}
 
 	return a.playerName.localeCompare(b.playerName, undefined, { sensitivity: 'base' })

@@ -116,7 +116,7 @@ export function DataGolfLeaderboardPage() {
 								<div
 									id="pga-leaderboard-title"
 									className="font-[MastersDisplay] text-4xl uppercase tracking-wide text-[#fbf308] text-shadow-lg text-shadow-[#21483c] sm:text-5xl">
-									PGA Leaderboard
+									Leaderboard
 								</div>
 							</div>
 

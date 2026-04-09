@@ -32,7 +32,7 @@ export function SearchToolbar({
 	return (
 		<section className=" rounded-t-[100px] md:rounded-t-full bg-linear-to-b from-[#dad9d4] to-white pt-8 pb-2" aria-labelledby="leaderboard-title">
 			<div className="text-4xl sm:text-5xl font-[MastersDisplay] text-[#fbf308] text-shadow-lg text-shadow-[#21483c] text-center uppercase pt-2 pb-6">
-				Pool Leaderboard
+				Leaderboard
 			</div>
 
 			<div className="w-7/8 max-w-2xl mx-auto flex flex-row justify-between">
