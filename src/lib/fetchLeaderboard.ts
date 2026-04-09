@@ -16,7 +16,7 @@ const golferFields = [
   'golferTwelve',
 ] as const;
 
-function normalizeEntry(row: OpenSheetRow): LeaderboardEntry {
+function normalizeEntry(row: OpenSheetRow, index: number): LeaderboardEntry {
   const golfers = golferFields
     .map((field) => row[field]?.trim())
     .filter((golfer): golfer is string => Boolean(golfer));
@@ -24,7 +24,7 @@ function normalizeEntry(row: OpenSheetRow): LeaderboardEntry {
   const earnings = Number.parseFloat(row.earnings);
 
   return {
-    id: `${row.email}-${row.teamName}`.toLowerCase().replace(/\s+/g, '-'),
+    id: `${index}-${row.email}-${row.teamName}`.toLowerCase().replace(/\s+/g, '-'),
     email: row.email,
     teamName: row.teamName.trim(),
     rank: '0',
@@ -76,5 +76,5 @@ export async function fetchLeaderboard(): Promise<LeaderboardEntry[]> {
     throw new Error('Leaderboard response did not return a valid list.');
   }
 
-  return assignRanks(rows.map(normalizeEntry).sort(compareEntriesByEarnings));
+  return assignRanks(rows.map((row, index) => normalizeEntry(row, index)).sort(compareEntriesByEarnings));
 }
