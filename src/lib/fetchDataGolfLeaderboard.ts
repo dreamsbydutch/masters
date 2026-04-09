@@ -1,4 +1,4 @@
-import { DATAGOLF_IN_PLAY_ENDPOINT, DATAGOLF_LIVE_STATS_ENDPOINT } from '../config/dataSource'
+import { DATAGOLF_IN_PLAY_ENDPOINT, DATAGOLF_LIVE_STATS_ENDPOINT, DATAGOLF_PROXY_ENDPOINT } from '../config/dataSource'
 import type { DataGolfLeaderboard, DataGolfLeaderboardEntry } from '../types/datagolf'
 
 type UnknownRecord = Record<string, unknown>
@@ -358,7 +358,8 @@ async function fetchDataGolfPayload(url: URL): Promise<unknown> {
 
 function buildUrl(endpoint: string, params: Record<string, string>): URL {
 	const baseUrl = typeof window === 'undefined' ? 'http://localhost' : window.location.origin
-	const url = new URL(endpoint, baseUrl)
+	const url = new URL(DATAGOLF_PROXY_ENDPOINT, baseUrl)
+	url.searchParams.set('endpoint', endpoint)
 
 	for (const [key, value] of Object.entries(params)) {
 		url.searchParams.set(key, value)
