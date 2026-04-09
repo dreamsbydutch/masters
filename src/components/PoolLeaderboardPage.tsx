@@ -1,4 +1,4 @@
-import { startTransition, useCallback, useDeferredValue, useEffect, useMemo, useRef, useState } from 'react'
+import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import { REFRESH_INTERVAL_MS } from '../config/dataSource'
 import { filterEntries } from '../lib/filterEntries'
 import { fetchLeaderboard } from '../lib/fetchLeaderboard'
@@ -34,7 +34,6 @@ export function PoolLeaderboardPage() {
 	const [entries, setEntries] = useState<LeaderboardEntry[]>([])
 	const [expandedRows, setExpandedRows] = useState<Set<string>>(new Set())
 	const [searchTerm, setSearchTerm] = useState('')
-	const deferredSearchTerm = useDeferredValue(searchTerm)
 	const [isLoading, setIsLoading] = useState(true)
 	const [isRefreshing, setIsRefreshing] = useState(false)
 	const [errorMessage, setErrorMessage] = useState<string | null>(null)
@@ -125,14 +124,12 @@ export function PoolLeaderboardPage() {
 		})
 	}, [])
 
-	const filteredEntries = useMemo(() => filterEntries(entries, deferredSearchTerm), [entries, deferredSearchTerm])
+	const filteredEntries = useMemo(() => filterEntries(entries, searchTerm), [entries, searchTerm])
 	const visibleEntries = useMemo(() => filteredEntries.slice(0, visibleEntryCount), [filteredEntries, visibleEntryCount])
 	const canLoadMore = visibleEntryCount < filteredEntries.length
 
 	const handleSearchChange = useCallback((value: string) => {
-		startTransition(() => {
-			setSearchTerm(value)
-		})
+		setSearchTerm(value)
 	}, [])
 
 	const loadMoreEntries = useCallback(() => {
@@ -141,7 +138,8 @@ export function PoolLeaderboardPage() {
 
 	useEffect(() => {
 		setVisibleEntryCount(INITIAL_VISIBLE_ENTRIES)
-	}, [deferredSearchTerm])
+		setExpandedRows(new Set())
+	}, [searchTerm])
 
 	useEffect(() => {
 		if (!canLoadMore || !loadMoreRef.current) {

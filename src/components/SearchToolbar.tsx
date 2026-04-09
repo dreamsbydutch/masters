@@ -38,9 +38,13 @@ export function SearchToolbar({
 			<div className="w-7/8 max-w-2xl mx-auto flex flex-row justify-between">
 				<input
 					id="team-search"
-					type="search"
+					name="team-search"
+					type="text"
 					inputMode="search"
 					autoComplete="off"
+					autoCorrect="off"
+					autoCapitalize="none"
+					spellCheck={false}
 					placeholder="Search by team name"
 					value={searchTerm}
 					onChange={event => onSearchChange(event.target.value)}
