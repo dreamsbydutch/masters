@@ -5,6 +5,12 @@ type DataGolfLeaderboardTableProps = {
 	entries: DataGolfLeaderboardEntry[]
 }
 
+function isInactivePosition(position: string): boolean {
+	const normalizedPosition = position.toUpperCase()
+
+	return normalizedPosition === 'CUT' || normalizedPosition === 'WD' || normalizedPosition === 'DQ'
+}
+
 function formatPercent(value: number | null): string {
 	if (value === null) {
 		return '--'
@@ -53,7 +59,11 @@ export const DataGolfLeaderboardTable = memo(function DataGolfLeaderboardTable({
 				</thead>
 				<tbody>
 					{entries.map((entry, index) => (
-						<tr key={entry.id} className={index === 0 || entries[index - 1].position !== entry.position ? 'border-t border-[#346c50]' : ''}>
+						<tr
+							key={entry.id}
+							className={`${index === 0 || entries[index - 1].position !== entry.position ? 'border-t border-[#346c50]' : ''} ${
+								isInactivePosition(entry.position) ? 'opacity-70' : ''
+							}`}>
 							<td className="w-[12%] py-2 text-center font-[MastersDisplay] text-base tracking-wider text-[#21483c] sm:py-3 sm:text-2xl">
 								{entry.position}
 							</td>
