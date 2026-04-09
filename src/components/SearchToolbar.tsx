@@ -1,31 +1,13 @@
 type SearchToolbarProps = {
 	searchTerm: string
 	onSearchChange: (value: string) => void
-	visibleCount: number
-	resultCount: number
-	totalCount: number
 	lastUpdatedLabel: string
 	isRefreshing: boolean
-}
-
-function getStatusLabel(visibleCount: number, resultCount: number, totalCount: number): string {
-	if (resultCount === 0) {
-		return 'Showing 0 teams'
-	}
-
-	if (resultCount === totalCount) {
-		return `Showing ${visibleCount} of ${totalCount} teams`
-	}
-
-	return `Showing ${visibleCount} of ${resultCount} matches`
 }
 
 export function SearchToolbar({
 	searchTerm,
 	onSearchChange,
-	visibleCount,
-	resultCount,
-	totalCount,
 	lastUpdatedLabel,
 	isRefreshing,
 }: SearchToolbarProps) {

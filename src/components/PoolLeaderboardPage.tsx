@@ -1,13 +1,10 @@
-import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
+import { useCallback, useEffect, useMemo, useState } from 'react'
 import { REFRESH_INTERVAL_MS } from '../config/dataSource'
 import { filterEntries } from '../lib/filterEntries'
 import { fetchLeaderboard } from '../lib/fetchLeaderboard'
 import type { LeaderboardEntry } from '../types/leaderboard'
 import { LeaderboardTable } from './LeaderboardTable'
 import { SearchToolbar } from './SearchToolbar'
-
-const INITIAL_VISIBLE_ENTRIES = 80
-const LOAD_MORE_BATCH = 120
 
 function formatTimestamp(timestamp: Date | null): string {
 	if (!timestamp) {
@@ -39,8 +36,6 @@ export function PoolLeaderboardPage() {
 	const [errorMessage, setErrorMessage] = useState<string | null>(null)
 	const [warningMessage, setWarningMessage] = useState<string | null>(null)
 	const [lastUpdated, setLastUpdated] = useState<Date | null>(null)
-	const [visibleEntryCount, setVisibleEntryCount] = useState(INITIAL_VISIBLE_ENTRIES)
-	const loadMoreRef = useRef<HTMLDivElement | null>(null)
 
 	useEffect(() => {
 		let isMounted = true
@@ -125,40 +120,6 @@ export function PoolLeaderboardPage() {
 	}, [])
 
 	const filteredEntries = useMemo(() => filterEntries(entries, searchTerm), [entries, searchTerm])
-	const visibleEntries = useMemo(() => filteredEntries.slice(0, visibleEntryCount), [filteredEntries, visibleEntryCount])
-	const canLoadMore = visibleEntryCount < filteredEntries.length
-
-	const handleSearchChange = useCallback((value: string) => {
-		setSearchTerm(value)
-	}, [])
-
-	const loadMoreEntries = useCallback(() => {
-		setVisibleEntryCount((current) => Math.min(current + LOAD_MORE_BATCH, filteredEntries.length))
-	}, [filteredEntries.length])
-
-	useEffect(() => {
-		setVisibleEntryCount(INITIAL_VISIBLE_ENTRIES)
-		setExpandedRows(new Set())
-	}, [searchTerm])
-
-	useEffect(() => {
-		if (!canLoadMore || !loadMoreRef.current) {
-			return
-		}
-
-		const observer = new IntersectionObserver(
-			(observerEntries) => {
-				if (observerEntries.some((entry) => entry.isIntersecting)) {
-					loadMoreEntries()
-				}
-			},
-			{ rootMargin: '500px 0px' },
-		)
-
-		observer.observe(loadMoreRef.current)
-
-		return () => observer.disconnect()
-	}, [canLoadMore, loadMoreEntries])
 
 	return isLoading ? (
 		<section className="my-8 mx-auto max-w-4xl rounded-xl bg-white px-5 py-5 shadow-lg shadow-[#fbf308]" aria-live="polite">
@@ -177,10 +138,7 @@ export function PoolLeaderboardPage() {
 		<section className="my-8 mx-auto max-w-4xl">
 			<SearchToolbar
 				searchTerm={searchTerm}
-				onSearchChange={handleSearchChange}
-				visibleCount={visibleEntries.length}
-				resultCount={filteredEntries.length}
-				totalCount={entries.length}
+				onSearchChange={setSearchTerm}
 				lastUpdatedLabel={formatTimestamp(lastUpdated)}
 				isRefreshing={isRefreshing}
 			/>
@@ -188,22 +146,9 @@ export function PoolLeaderboardPage() {
 				<p className="border-x border-[#c39e2c] bg-[#fff7d6] px-8 py-3 text-base text-[#5d4a0d]">{warningMessage}</p>
 			) : null}
 			<LeaderboardTable
-				entries={visibleEntries}
+				entries={filteredEntries}
 				expandedRows={expandedRows}
 				onToggleRow={handleToggleRow}
-				footer={
-					canLoadMore ? (
-						<div className="mx-auto mt-6 flex w-11/12 max-w-2xl flex-col items-center gap-4">
-							<div ref={loadMoreRef} aria-hidden="true" className="h-1 w-full" />
-							<button
-								type="button"
-								className="rounded-full bg-[linear-gradient(180deg,#21483c_0%,#346c50_100%)] px-6 py-3 font-[MastersDisplay] text-lg tracking-wider text-white uppercase"
-								onClick={loadMoreEntries}>
-								Load More Teams
-							</button>
-						</div>
-					) : null
-				}
 			/>
 		</section>
 	)

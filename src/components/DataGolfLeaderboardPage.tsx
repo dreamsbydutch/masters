@@ -27,7 +27,6 @@ function getErrorMessage(error: unknown): string {
 
 export function DataGolfLeaderboardPage() {
 	const [entries, setEntries] = useState<DataGolfLeaderboardEntry[]>([])
-	const [eventName, setEventName] = useState<string | null>(null)
 	const [isLoading, setIsLoading] = useState(true)
 	const [isRefreshing, setIsRefreshing] = useState(false)
 	const [errorMessage, setErrorMessage] = useState<string | null>(null)
@@ -55,7 +54,6 @@ export function DataGolfLeaderboardPage() {
 				}
 
 				setEntries(nextLeaderboard.entries)
-				setEventName(nextLeaderboard.eventName)
 				setLastUpdated(new Date())
 				setWarningMessage(null)
 				setErrorMessage(null)

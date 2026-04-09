@@ -11,7 +11,7 @@ export function PayoutGrid() {
 				<h2
 					id="pool-payouts-title"
 					className="font-[MastersDisplay] text-[clamp(2rem,3vw,2.75rem)] leading-none tracking-[0.03em] text-[#0a4123] uppercase">
-					2025 Pool Payouts
+					2026 Pool Payouts
 				</h2>
 			</div>
 
