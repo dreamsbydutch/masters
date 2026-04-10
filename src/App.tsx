@@ -4,6 +4,7 @@ import { Masthead } from './components/Masthead'
 import { DataGolfLeaderboardPage } from './components/DataGolfLeaderboardPage'
 import { PageNav } from './components/PageNav'
 import { PoolLeaderboardPage } from './components/PoolLeaderboardPage'
+import { PayoutGrid } from './components/PayoutGrid'
 
 type AppPage = 'pool' | 'pga'
 
@@ -31,6 +32,7 @@ function App() {
 
 			<main className="relative z-10 mx-auto w-[min(1180px,calc(100%-1rem))] px-0 pb-16 pt-5 sm:w-[min(1180px,calc(100%-2rem))]">
 				<Masthead />
+				<PayoutGrid />
 				<PageNav currentPage={currentPage} />
 				{currentPage === 'pga' ? <DataGolfLeaderboardPage /> : <PoolLeaderboardPage />}
 			</main>

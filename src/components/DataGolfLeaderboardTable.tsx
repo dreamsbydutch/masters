@@ -34,10 +34,10 @@ export const DataGolfLeaderboardTable = memo(function DataGolfLeaderboardTable({
 			<table className="mx-auto w-11/12 max-w-2xl table-fixed sm:max-w-4xl">
 				<thead>
 					<tr>
-						<th className="w-[12%] py-3 text-center font-[MastersDisplay] text-xs font-light uppercase tracking-widest sm:text-base md:text-lg">
+						<th className="w-[12%] py-3 text-center font-[MastersDisplay] text-xs font-light uppercase tracking-widest sm:w-[10%] sm:text-base md:text-lg">
 							Pos
 						</th>
-						<th className="w-[40%] py-3 pl-3 text-left font-[MastersDisplay] text-xs font-light uppercase tracking-widest sm:w-[32%] sm:pl-6 sm:text-base md:text-lg">
+						<th className="w-[40%] py-3 pl-3 text-left font-[MastersDisplay] text-xs font-light uppercase tracking-widest sm:w-[30%] sm:pl-6 sm:text-base md:text-lg">
 							Player
 						</th>
 						<th className="w-[16%] py-3 text-center font-[MastersDisplay] text-xs font-light uppercase tracking-widest sm:w-[10%] sm:text-base md:text-lg">
@@ -64,10 +64,10 @@ export const DataGolfLeaderboardTable = memo(function DataGolfLeaderboardTable({
 							className={`${index === 0 || entries[index - 1].position !== entry.position ? 'border-t border-[#346c50]' : ''} ${
 								isInactivePosition(entry.position) ? 'opacity-70' : ''
 							}`}>
-							<td className="w-[12%] py-2 text-center font-[MastersDisplay] text-base tracking-wider text-[#21483c] sm:py-3 sm:text-2xl">
+							<td className="w-[12%] py-2 text-center font-[MastersDisplay] text-base tracking-wider text-[#21483c] sm:w-[10%] sm:py-3 sm:text-2xl">
 								{entry.position}
 							</td>
-							<td className="w-[40%] py-2 pl-3 font-[MastersDisplay] text-sm leading-tight text-[#15311f] sm:w-[32%] sm:py-3 sm:pl-4 sm:text-xl md:text-2xl">
+							<td className="w-[40%] break-words py-2 pl-3 font-[MastersDisplay] text-sm leading-tight text-[#15311f] sm:w-[30%] sm:py-3 sm:pl-4 sm:text-xl md:text-2xl">
 								{entry.playerName}
 							</td>
 							<td className="w-[16%] py-2 text-center font-[MastersDisplay] text-base tracking-wider text-[#21483c] sm:w-[10%] sm:py-3 sm:text-xl md:text-2xl">

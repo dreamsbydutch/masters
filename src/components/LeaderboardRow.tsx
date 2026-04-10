@@ -21,9 +21,11 @@ export const LeaderboardRow = memo(function LeaderboardRow({ entry, isExpanded, 
 				aria-label={isExpanded ? `Hide ${entry.teamName} roster` : `View ${entry.teamName} roster`}
 				aria-expanded={isExpanded}
 				aria-controls={detailsId}>
-				<td className="w-1/12 text-center font-[MastersDisplay] tracking-wide text-lg sm:text-xl text-[#21483c]">{entry.rank}</td>
-				<td className="w-8/12 text-lg font-[MastersDisplay] sm:text-xl md:text-2xl pl-4 py-1">{entry.teamName}</td>
-				<td className="w-3/12 text-center font-[MastersDisplay] tracking-wide text-lg sm:text-xl text-[#21483c]">{formatCurrency(entry.earnings)}</td>
+				<td className="w-1/12 text-center font-[MastersDisplay] tracking-wide text-lg text-[#21483c] sm:text-xl">{entry.rank}</td>
+				<td className="w-7/12 break-words py-1 pl-4 font-[MastersDisplay] text-lg leading-tight sm:text-xl md:text-2xl">{entry.teamName}</td>
+				<td className="w-3/12 px-1 text-center font-[MastersDisplay] tracking-wide text-lg text-[#21483c] sm:text-xl">
+					{formatCurrency(entry.earnings)}
+				</td>
 				<td className="w-1/12 text-right">
 					<svg
 						aria-hidden="true"

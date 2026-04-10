@@ -21,13 +21,13 @@ export const LeaderboardTable = memo(function LeaderboardTable({ entries, expand
 
 	return (
 		<section className="rounded-b-xl bg-white pb-12">
-			<table className="w-11/12 mx-auto max-w-2xl ">
+			<table className="mx-auto w-11/12 max-w-2xl table-fixed">
 				<thead>
 					<tr>
-						<th className="font-[MastersDisplay] font-light tracking-widest text-sm sm:text-base md:text-lg uppercase">Pos</th>
-						<th className="font-[MastersDisplay] font-light tracking-widest text-sm sm:text-base md:text-lg uppercase text-left pl-6">Team</th>
-						<th className="font-[MastersDisplay] font-light tracking-widest text-sm sm:text-base md:text-lg uppercase">Team Earnings</th>
-						<th className="font-[MastersDisplay] font-light tracking-widest text-sm sm:text-base md:text-lg uppercase"></th>
+						<th className="w-1/12 font-[MastersDisplay] font-light tracking-widest text-sm sm:text-base md:text-lg uppercase">Pos</th>
+						<th className="w-7/12 pl-4 text-left font-[MastersDisplay] text-sm font-light tracking-widest uppercase sm:pl-6 sm:text-base md:text-lg">Team</th>
+						<th className="w-3/12 font-[MastersDisplay] font-light tracking-widest text-sm sm:text-base md:text-lg uppercase">Team Earnings</th>
+						<th className="w-1/12 font-[MastersDisplay] font-light tracking-widest text-sm sm:text-base md:text-lg uppercase"></th>
 					</tr>
 				</thead>
 				<tbody>
