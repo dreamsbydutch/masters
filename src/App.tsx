@@ -32,7 +32,7 @@ function App() {
 
 			<main className="relative z-10 mx-auto w-[min(1180px,calc(100%-1rem))] px-0 pb-16 pt-5 sm:w-[min(1180px,calc(100%-2rem))]">
 				<Masthead />
-				{/* <PayoutGrid /> */}
+				<PayoutGrid />
 				<PageNav currentPage={currentPage} />
 				{currentPage === 'pga' ? <DataGolfLeaderboardPage /> : <PoolLeaderboardPage />}
 			</main>

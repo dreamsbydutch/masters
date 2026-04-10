@@ -4,7 +4,7 @@ export const POOL_PAYOUTS: Payout[] = [
 	{
 		place: 'First',
 		prize: '$8,500',
-		detail: '$2,000 charity donation',
+		detail: '$2,000 charity donation + Augusta prize package',
 	},
 	{ place: '2nd', prize: '$4,500' },
 	{ place: '3rd', prize: '$3,000' },
